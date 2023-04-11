@@ -29,7 +29,7 @@ public class Cola extends JFrame{
 
     private int quantum;
     Queue<Proceso> cola = new LinkedList<>();
-    Stack<String> pila = new Stack<>();
+    Stack<Proceso> pila = new Stack<>();
     Proceso p1 = new Proceso ("P1","043534523", 100);
     Proceso p2 = new Proceso ("P2","096785654", 90);
     Proceso p3 = new Proceso ("P3","049873455", 70);
@@ -39,6 +39,14 @@ public class Cola extends JFrame{
 
     public Cola(){
         setContentPane(panel1);
+        ButtonMostrarDatos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Proceso imprimir:cola){
+                    AreaDatos.append(imprimir+"\n");
+                }
+            }
+        });
         ButtonInsertarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,10 +81,20 @@ public class Cola extends JFrame{
         ButtonRobin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (Proceso proceso:cola){
-                    if (proceso.getTiempo()<quantum){
+                /*do {
+                    for (Proceso proceso : cola) {
+                        int tiempo = 0;
+                        if (proceso.getTiempo() > quantum) {
+                            tiempo = proceso.getTiempo() - quantum;
+                            proceso.setTiempo(tiempo);
+                            Proceso sacar = cola.poll();
+                            cola.offer(sacar);
+                        } else if (proceso.getTiempo() < quantum) {
+                            pila.push(cola.poll());
+                        }
                     }
-                }
+                } while(cola.isEmpty());
+                AreaRobin.setText(pila.toString());*/
                 //Proceso primerProceso = cola.peek();
                 //int tiempo = primerProceso.getTiempo();
                 //if
