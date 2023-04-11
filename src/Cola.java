@@ -27,6 +27,7 @@ public class Cola extends JFrame{
     private JButton ButtonBorrar;
     private JTextArea AreaHistorial;
 
+    private int quantum;
     Queue<Proceso> cola = new LinkedList<>();
     Stack<String> pila = new Stack<>();
     Proceso p1 = new Proceso ("P1","043534523", 100);
@@ -59,6 +60,26 @@ public class Cola extends JFrame{
                 for (Proceso imprimir:cola){
                     AreaNuevo.append(imprimir+"\n");
                 }
+            }
+        });
+        ButtonQuantum.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quantum=0;
+                quantum=Integer.parseInt(FieldQuantum.getText());
+                AreaQuantum.setText("El nuevo valor del quantum es: " + quantum);
+            }
+        });
+        ButtonRobin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Proceso proceso:cola){
+                    if (proceso.getTiempo()<quantum){
+                    }
+                }
+                //Proceso primerProceso = cola.peek();
+                //int tiempo = primerProceso.getTiempo();
+                //if
             }
         });
     }
