@@ -46,15 +46,21 @@ public class Cola extends JFrame{
         ButtonMostrarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AreaDatos.setText("");
-                for (Proceso imprimir:cola){
-                    AreaDatos.append(imprimir+"\n");
+                if (cola.isEmpty()){
+                    AreaDatos.setText("No hay datos en la cola, el proceso Roud Robin ya se ha completado." +
+                            " Agrege más datos si lo quiere realizar de nuevo!");
+                } else{
+                    AreaDatos.setText("");
+                    for (Proceso imprimir:cola){
+                        AreaDatos.append(imprimir+"\n");
+                    }
                 }
             }
         });
         ButtonInsertarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 cola.offer(p1);
                 cola.offer(p2);
                 cola.offer(p3);
@@ -64,6 +70,7 @@ public class Cola extends JFrame{
                 for (Proceso imprimir:cola){
                     AreaInsertarDatos.append(imprimir+"\n");
                 }
+                ButtonInsertarDatos.setEnabled(false);
             }
         });
         ButtonInsertarNuevo.addActionListener(new ActionListener() {
@@ -91,6 +98,7 @@ public class Cola extends JFrame{
         ButtonRobin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AreaRobin.setText("");
                 int acumulado=0;
                 while (!cola.isEmpty()) {
                     Proceso procesoActual = cola.poll();
