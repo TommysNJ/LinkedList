@@ -1,4 +1,8 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Cola extends JFrame{
@@ -22,10 +26,36 @@ public class Cola extends JFrame{
     private JButton ButtonHistorial;
     private JButton ButtonBorrar;
     private JTextArea AreaHistorial;
-    Stack<String>pila1 = new Stack<>();
 
+    Queue<Proceso> cola = new LinkedList<>();
+    Stack<String> pila = new Stack<>();
+    Proceso p1 = new Proceso ("P1","043534523", 100);
+    Proceso p2 = new Proceso ("P2","096785654", 90);
+    Proceso p3 = new Proceso ("P3","049873455", 70);
+    Proceso p4 = new Proceso ("P4","075464565", 50);
+    Proceso p5 = new Proceso ("P5","053673455", 40);
+    Proceso p6 = new Proceso ("P6","023565466", 20);
 
     public Cola(){
         setContentPane(panel1);
+        ButtonInsertarDatos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cola.offer(p1);
+                cola.offer(p2);
+                cola.offer(p3);
+                cola.offer(p4);
+                cola.offer(p5);
+                cola.offer(p6);
+                for (Proceso imprimir:cola){
+                    AreaInsertarDatos.append(imprimir+"\n");
+                }
+            }
+        });
+        ButtonInsertarNuevo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
     }
 }
