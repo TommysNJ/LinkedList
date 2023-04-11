@@ -19,7 +19,7 @@ public class Main {
             @Override
             public void run() {
                 JFrame frame = new Cola();
-                frame.setSize(450, 450);
+                frame.setSize(800, 550);
                 frame.setVisible(true);
             }
         });
