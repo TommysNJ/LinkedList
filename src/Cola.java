@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Area;
+import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -30,6 +32,7 @@ public class Cola extends JFrame{
     private int quantum;
     Queue<Proceso> cola = new LinkedList<>();
     Stack<Proceso> pila = new Stack<>();
+    Stack<Proceso> pila2 = new Stack<>();
     Proceso p1 = new Proceso ("P1","043534523", 100);
     Proceso p2 = new Proceso ("P2","096785654", 90);
     Proceso p3 = new Proceso ("P3","049873455", 70);
@@ -42,6 +45,7 @@ public class Cola extends JFrame{
         ButtonMostrarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AreaDatos.setText("");
                 for (Proceso imprimir:cola){
                     AreaDatos.append(imprimir+"\n");
                 }
@@ -73,31 +77,83 @@ public class Cola extends JFrame{
         ButtonQuantum.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                quantum=0;
-                quantum=Integer.parseInt(FieldQuantum.getText());
-                AreaQuantum.setText("El nuevo valor del quantum es: " + quantum);
+                if (FieldQuantum.getText().isEmpty()){
+                    quantum=35;
+                    AreaQuantum.setText("El nuevo valor del quantum es: " + quantum);
+                } else {
+                    quantum=0;
+                    quantum=Integer.parseInt(FieldQuantum.getText());
+                    AreaQuantum.setText("El nuevo valor del quantum es: " + quantum);
+                }
             }
         });
         ButtonRobin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*do {
-                    for (Proceso proceso : cola) {
-                        int tiempo = 0;
-                        if (proceso.getTiempo() > quantum) {
-                            tiempo = proceso.getTiempo() - quantum;
-                            proceso.setTiempo(tiempo);
-                            Proceso sacar = cola.poll();
-                            cola.offer(sacar);
-                        } else if (proceso.getTiempo() < quantum) {
-                            pila.push(cola.poll());
-                        }
+                while (!cola.isEmpty()) {
+                    Proceso procesoActual = cola.poll();
+                    int tiempo = procesoActual.getTiempo();
+                    AreaRobin.append("El proceso " + procesoActual.getId() + " entra en ejecución.\n");
+                    if (tiempo > 0 && tiempo > quantum) {
+                        tiempo -= quantum;
+                        procesoActual.setTiempo(tiempo);
+                        cola.offer(procesoActual);
+                        AreaRobin.append("El proceso " + procesoActual.getId() + " tiene " + tiempo + " de tiempo restante.\n");
+                    } else {
+                        AreaRobin.append("El proceso " + procesoActual.getId() + " ha finalizado.\n");
+                        pila.push(procesoActual);
                     }
-                } while(cola.isEmpty());
-                AreaRobin.setText(pila.toString());*/
-                //Proceso primerProceso = cola.peek();
-                //int tiempo = primerProceso.getTiempo();
-                //if
+                }
+                AreaRobin.append("Todos los procesos han finalizado.\n");
+            }
+        });
+
+        ButtonHistorial.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pila.isEmpty()){
+                    try{
+                        pila.peek();
+                        pila.pop();
+                    } catch (EmptyStackException em){
+                        //AreaHistorial.setText("");
+                    }
+                } else{
+                    AreaHistorial.setText("");
+                    do{
+                        AreaHistorial.append(pila.peek().getId() + "\n" + pila.peek().getCedula() + "\n\n");
+                        pila2.push(pila.pop());
+
+                    } while (!pila.isEmpty());
+                }
+            }
+        });
+        ButtonUltimo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AreaHistorial.setText("");
+                if (pila2.isEmpty()){
+                    try{
+                        pila2.peek();
+                        pila2.pop();
+                    } catch (EmptyStackException em){
+                        //AreaHistorial.setText("");
+                    }
+                } else{
+                    AreaHistorial.setText(pila2.peek().getId() + "\n" + pila2.peek().getCedula() + "\n\n");
+                    do {
+                        pila.push(pila2.pop());
+                    } while (!pila2.isEmpty());
+                }
+            }
+        });
+        ButtonBorrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AreaHistorial.setText("");
+                pila.clear();
+                pila2.clear();
+                AreaHistorial.setText("El Historial se ha borrado.");
             }
         });
     }
