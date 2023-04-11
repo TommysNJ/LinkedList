@@ -55,6 +55,10 @@ public class Cola extends JFrame{
         ButtonInsertarNuevo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                 cola.offer(new Proceso (FieldID.getText(),FieldCedula.getText(),Integer.parseInt(FieldTiempo.getText())));
+                for (Proceso imprimir:cola){
+                    AreaNuevo.append(imprimir+"\n");
+                }
             }
         });
     }
