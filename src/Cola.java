@@ -30,6 +30,7 @@ public class Cola extends JFrame{
     private JTextArea AreaHistorial;
 
     private int quantum;
+    private int acumulado;
     Queue<Proceso> cola = new LinkedList<>();
     Stack<Proceso> pila = new Stack<>();
     Stack<Proceso> pila2 = new Stack<>();
@@ -90,21 +91,25 @@ public class Cola extends JFrame{
         ButtonRobin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int acumulado=0;
                 while (!cola.isEmpty()) {
                     Proceso procesoActual = cola.poll();
                     int tiempo = procesoActual.getTiempo();
-                    AreaRobin.append("El proceso " + procesoActual.getId() + " entra en ejecución.\n");
+                    AreaRobin.append("Tiempo " + acumulado + ": El proceso " + procesoActual.getId() + " entra en ejecución.\n");
                     if (tiempo > 0 && tiempo > quantum) {
-                        tiempo -= quantum;
+                        tiempo -= quantum; //tiempo=100-20
+                        acumulado+=quantum;
                         procesoActual.setTiempo(tiempo);
                         cola.offer(procesoActual);
-                        AreaRobin.append("El proceso " + procesoActual.getId() + " tiene " + tiempo + " de tiempo restante.\n");
+                        AreaRobin.append("Tiempo " + acumulado + ": El proceso " + procesoActual.getId() + " tiene " + tiempo + " de tiempo restante.\n");
                     } else {
-                        AreaRobin.append("El proceso " + procesoActual.getId() + " ha finalizado.\n");
+                        acumulado+=tiempo;
+                        AreaRobin.append("Tiempo " + acumulado + ": El proceso " + procesoActual.getId() + " ha finalizado.\n");
                         pila.push(procesoActual);
                     }
                 }
-                AreaRobin.append("Todos los procesos han finalizado.\n");
+                AreaRobin.append("Tiempo " + acumulado + ": Todos los procesos han finalizado.\n");
+                AreaRobin.append("Tiempo total ejecutado: " + acumulado);
             }
         });
 
